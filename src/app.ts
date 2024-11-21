@@ -9,7 +9,7 @@ app.use(cors());
 
 // applications routs
 const getAController = (req: Request, res: Response) => {
-    res.send(`The bicycle is moving at a speed of ${config.port}`);
+    res.send(`The bicycle is moving at a speed of ${config.port} 🚴`);
 };
 
 app.get('/', getAController);

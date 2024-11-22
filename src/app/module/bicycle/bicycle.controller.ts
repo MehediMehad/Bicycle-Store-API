@@ -47,9 +47,29 @@ const getSingleBicycle = async (req: Request, res: Response) => {
     }
 };
 
+// Update a Bicycle
+const updateBicycleDetailsById = async (req: Request, res: Response) => {
+    try {
+        const { productId } = req.params;
+        const { bicycle } = req.body;
+        const result = await BicycleServices.updateBicycleByIdFromDB(
+            productId,
+            bicycle
+        );
+
+        res.status(200).json({
+            success: true,
+            message: 'Bicycle retrieved successfully',
+            data: result
+        });
+    } catch (err) {
+        console.log(err);
+    }
+};
 //
 export const bicycleController = {
     createBicycle,
     getAllBicycles,
-    getSingleBicycle
+    getSingleBicycle,
+    updateBicycleDetailsById
 };

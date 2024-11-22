@@ -5,5 +5,6 @@ const bicycleRouter = Router();
 
 bicycleRouter.post('/', bicycleController.createBicycle);
 bicycleRouter.get('/', bicycleController.getAllBicycles);
+bicycleRouter.get('/:productId', bicycleController.getSingleBicycle);
 
 export default bicycleRouter;

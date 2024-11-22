@@ -11,7 +11,13 @@ const getAllBicyclesFromDB = async () => {
     return result;
 };
 
+const getSingleBicycleFromDB = async (productId: string) => {
+    const result = await BicycleModel.findOne({ _id: productId });
+    return result;
+};
+
 export const BicycleServices = {
     createBicycleDB,
-    getAllBicyclesFromDB
+    getAllBicyclesFromDB,
+    getSingleBicycleFromDB
 };

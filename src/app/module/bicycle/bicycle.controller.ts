@@ -30,8 +30,26 @@ const getAllBicycles = async (req: Request, res: Response) => {
     }
 };
 
+// Get Single Bicycle
+const getSingleBicycle = async (req: Request, res: Response) => {
+    try {
+        const { productId } = req.params;
+
+        const result = await BicycleServices.getSingleBicycleFromDB(productId);
+
+        res.status(200).json({
+            success: true,
+            message: 'Bicycle retrieved successfully',
+            data: result
+        });
+    } catch (err) {
+        console.log(err);
+    }
+};
+
 //
 export const bicycleController = {
     createBicycle,
-    getAllBicycles
+    getAllBicycles,
+    getSingleBicycle
 };

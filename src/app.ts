@@ -10,7 +10,7 @@ app.use(express.json());
 app.use(cors());
 
 app.use('/api/products', bicycleRouter);
-app.use('/api/order', orderRouter);
+app.use('/api/orders', orderRouter);
 
 // applications routs
 const getAController = (req: Request, res: Response) => {

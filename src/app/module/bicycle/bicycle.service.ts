@@ -27,9 +27,15 @@ const updateBicycleByIdFromDB = async (id: string, data: TBicycle) => {
     return result;
 };
 
+const deleteBicycleByIdFromDB = async (id: string) => {
+    const result = await BicycleModel.deleteOne({ _id: id });
+    return result;
+};
+
 export const BicycleServices = {
     createBicycleDB,
     getAllBicyclesFromDB,
     getSingleBicycleFromDB,
-    updateBicycleByIdFromDB
+    updateBicycleByIdFromDB,
+    deleteBicycleByIdFromDB
 };

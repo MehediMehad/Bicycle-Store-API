@@ -59,17 +59,34 @@ const updateBicycleDetailsById = async (req: Request, res: Response) => {
 
         res.status(200).json({
             success: true,
-            message: 'Bicycle retrieved successfully',
+            message: 'Bicycle updated successfully!',
             data: result
         });
     } catch (err) {
         console.log(err);
     }
 };
+
+const deleteBicycleDetailsById = async (req: Request, res: Response) => {
+    try {
+        const { productId } = req.params;
+        const result = BicycleServices.deleteBicycleByIdFromDB(productId);
+
+        res.status(200).json({
+            success: true,
+            message: 'Bicycle deleted successfully!',
+            data: result
+        });
+    } catch (err) {
+        console.log(err);
+    }
+};
+
 //
 export const bicycleController = {
     createBicycle,
     getAllBicycles,
     getSingleBicycle,
-    updateBicycleDetailsById
+    updateBicycleDetailsById,
+    deleteBicycleDetailsById
 };

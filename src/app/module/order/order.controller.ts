@@ -1,12 +1,13 @@
-import { Request, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
 import { OrderServices } from './oder.service';
 import BicycleModel from '../bicycle/bicycle.model';
 
+// Create Order Controller
 const createOrder = async (
     req: Request,
     res: Response,
-    next: NewableFunction
-) => {
+    next: NextFunction
+): Promise<void> => {
     try {
         const { email, product: bicycleId, quantity, totalPrice } = req.body;
 
@@ -14,19 +15,21 @@ const createOrder = async (
         const bicycle = await BicycleModel.findById(bicycleId);
 
         if (!bicycle) {
-            return res.status(404).json({
+            res.status(404).json({
                 success: false,
                 message: 'Bicycle not found',
                 error: 'Resource not found'
             });
+            return;
         }
         // Check if enough stock is available
         if (bicycle.quantity < quantity) {
-            return res.status(400).json({
+            res.status(400).json({
                 success: false,
                 message: 'Insufficient stock for the requested quantity',
                 error: 'Insufficient stock'
             });
+            return;
         }
 
         // Reduce the quantity in the bicycle model // TODO
@@ -51,7 +54,26 @@ const createOrder = async (
     }
 };
 
-//
+// Updated getAndCalculateRevenue Controller Function
+const getAndCalculateRevenue = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+) => {
+    try {
+        const totalRevenue = await OrderServices.calculateRevenueDB();
+
+        res.status(200).json({
+            message: 'Revenue calculated successfully',
+            status: true,
+            data: { totalRevenue }
+        });
+    } catch (err) {
+        next(err);
+    }
+};
+
 export const orderController = {
-    createOrder
+    createOrder,
+    getAndCalculateRevenue
 };

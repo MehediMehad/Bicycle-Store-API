@@ -26,7 +26,10 @@ const getAllBicycles = async (
     next: NextFunction
 ) => {
     try {
-        const result = await BicycleServices.getAllBicyclesFromDB();
+        const { searchTerm } = req.query;
+        const result = await BicycleServices.getAllBicyclesFromDB(
+            searchTerm as string
+        );
 
         res.status(200).json({
             success: true,

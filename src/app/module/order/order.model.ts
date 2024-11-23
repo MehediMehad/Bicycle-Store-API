@@ -5,7 +5,6 @@ const orderSchema = new Schema<TOrder>(
     {
         email: {
             type: String,
-            unique: true,
             required: [true, 'Email is required'],
             match: [
                 /\S+@\S+\.\S+/,

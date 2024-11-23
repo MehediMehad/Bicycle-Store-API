@@ -8,8 +8,16 @@ const createBicycleDB = async (bicycle: TBicycle): Promise<TBicycle> => {
 };
 
 // This function returns all documents in the Bicycle collection.
-const getAllBicyclesFromDB = async () => {
-    const result = await BicycleModel.find();
+const getAllBicyclesFromDB = async (searchTerm?: string) => {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const filter: any = {};
+
+    if (searchTerm) {
+        const regex = new RegExp(searchTerm, 'i');
+        filter.$or = [{ name: regex }, { brand: regex }, { type: regex }];
+    }
+
+    const result = await BicycleModel.find(filter);
     return result;
 };
 

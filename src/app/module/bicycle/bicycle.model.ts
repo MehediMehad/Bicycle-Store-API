@@ -3,9 +3,25 @@ import { TBicycle } from './bicycle.interface';
 
 const bicycleSchema = new Schema<TBicycle>(
     {
-        name: { type: String, required: [true, 'Name is required'] },
-        brand: { type: String, required: [true, 'Brand is required'] },
-        price: { type: Number, required: [true, 'Price is required'] },
+        name: {
+            type: String,
+            required: [true, 'Name is required'],
+            trim: true,
+            minlength: [3, 'Name must be at least 3 characters long'],
+            maxlength: [50, 'Name cannot exceed 50 characters']
+        },
+        brand: {
+            type: String,
+            required: [true, 'Brand is required'],
+            trim: true,
+            minlength: [2, 'Brand must be at least 2 characters long'],
+            maxlength: [50, 'Brand cannot exceed 50 characters']
+        },
+        price: {
+            type: Number,
+            required: [true, 'Price is required'],
+            min: [0, 'Price cannot be negative']
+        },
         type: {
             type: String,
             enum: {
@@ -17,9 +33,16 @@ const bicycleSchema = new Schema<TBicycle>(
         },
         description: {
             type: String,
-            required: [true, 'Description is required']
+            required: [true, 'Description is required'],
+            trim: true,
+            minlength: [10, 'Description must be at least 10 characters long'],
+            maxlength: [300, 'Description cannot exceed 300 characters']
         },
-        quantity: { type: Number, required: [true, 'Quantity is required'] },
+        quantity: {
+            type: Number,
+            required: [true, 'Quantity is required'],
+            min: [1, 'Quantity cannot be less than 1']
+        },
         inStock: { type: Boolean, required: [true, 'inStock is required'] }
     },
     { timestamps: true }

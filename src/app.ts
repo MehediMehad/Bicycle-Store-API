@@ -19,6 +19,7 @@ const getAController = (req: Request, res: Response) => {
 };
 
 app.get('/', getAController);
+
 app.use(errorMiddleware);
 
 export default app;

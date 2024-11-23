@@ -3,6 +3,7 @@ import config from './app/config';
 import cors from 'cors';
 import bicycleRouter from './app/module/bicycle/bicycle.router';
 import orderRouter from './app/module/order/order.route';
+import errorMiddleware from './app/module/Middleware/Middleware';
 const app: Application = express();
 
 //parsers
@@ -18,5 +19,6 @@ const getAController = (req: Request, res: Response) => {
 };
 
 app.get('/', getAController);
+app.use(errorMiddleware);
 
 export default app;

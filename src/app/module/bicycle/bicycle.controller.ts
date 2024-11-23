@@ -1,9 +1,13 @@
-import { Request, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
 import { BicycleServices } from './bicycle.service';
 
-const createBicycle = async (req: Request, res: Response) => {
+const createBicycle = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+) => {
     try {
-        const { bicycle: bicycleData } = req.body;
+        const bicycleData = req.body;
         const result = await BicycleServices.createBicycleDB(bicycleData);
 
         res.status(200).json({
@@ -11,12 +15,16 @@ const createBicycle = async (req: Request, res: Response) => {
             message: 'Bicycle created successfully!',
             data: result
         });
-    } catch (error) {
-        console.log(error);
+    } catch (err) {
+        next(err);
     }
 };
 
-const getAllBicycles = async (req: Request, res: Response) => {
+const getAllBicycles = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+) => {
     try {
         const result = await BicycleServices.getAllBicyclesFromDB();
 
@@ -26,12 +34,16 @@ const getAllBicycles = async (req: Request, res: Response) => {
             data: result
         });
     } catch (err) {
-        console.log(err);
+        next(err);
     }
 };
 
 // Get Single Bicycle
-const getSingleBicycle = async (req: Request, res: Response) => {
+const getSingleBicycle = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+) => {
     try {
         const { productId } = req.params;
 
@@ -43,15 +55,19 @@ const getSingleBicycle = async (req: Request, res: Response) => {
             data: result
         });
     } catch (err) {
-        console.log(err);
+        next(err);
     }
 };
 
 // Update a Bicycle
-const updateBicycleDetailsById = async (req: Request, res: Response) => {
+const updateBicycleDetailsById = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+) => {
     try {
         const { productId } = req.params;
-        const { bicycle } = req.body;
+        const bicycle = req.body;
         const result = await BicycleServices.updateBicycleByIdFromDB(
             productId,
             bicycle
@@ -63,11 +79,15 @@ const updateBicycleDetailsById = async (req: Request, res: Response) => {
             data: result
         });
     } catch (err) {
-        console.log(err);
+        next(err);
     }
 };
 
-const deleteBicycleDetailsById = async (req: Request, res: Response) => {
+const deleteBicycleDetailsById = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+) => {
     try {
         const { productId } = req.params;
         const result = BicycleServices.deleteBicycleByIdFromDB(productId);
@@ -78,7 +98,7 @@ const deleteBicycleDetailsById = async (req: Request, res: Response) => {
             data: result
         });
     } catch (err) {
-        console.log(err);
+        next(err);
     }
 };
 

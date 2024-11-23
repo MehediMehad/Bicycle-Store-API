@@ -3,17 +3,24 @@ import { TBicycle } from './bicycle.interface';
 
 const bicycleSchema = new Schema<TBicycle>(
     {
-        name: { type: String, required: true },
-        brand: { type: String, required: true },
-        price: { type: Number, required: true },
+        name: { type: String, required: [true, 'Name is required'] },
+        brand: { type: String, required: [true, 'Brand is required'] },
+        price: { type: Number, required: [true, 'Price is required'] },
         type: {
             type: String,
-            enum: ['Mountain', 'Road', 'Hybrid', 'BMX'],
-            required: true
+            enum: {
+                values: ['Mountain', 'Road', 'Hybrid', 'BMX', 'Electric'],
+                message:
+                    '{VALUE} is not a valid bike type. Please choose from: Mountain, Road, Hybrid, BMX, or Electric.'
+            },
+            required: [true, 'Bike type is required.']
         },
-        description: { type: String, required: true },
-        quantity: { type: Number, default: 0 },
-        inStock: { type: Boolean, default: true }
+        description: {
+            type: String,
+            required: [true, 'Description is required']
+        },
+        quantity: { type: Number, required: [true, 'Quantity is required'] },
+        inStock: { type: Boolean, required: [true, 'inStock is required'] }
     },
     { timestamps: true }
 );

@@ -2,7 +2,7 @@ import { TBicycle } from './bicycle.interface';
 import BicycleModel from './bicycle.model';
 
 // The function inserts a new document into the Bicycle collection.
-const createBicycleDB = async (bicycle: TBicycle) => {
+const createBicycleDB = async (bicycle: TBicycle): Promise<TBicycle> => {
     const result = await BicycleModel.create(bicycle);
     return result;
 };

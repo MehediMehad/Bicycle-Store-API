@@ -48,7 +48,7 @@ const getSingleBicycle = async (
     req: Request,
     res: Response,
     next: NextFunction
-) => {
+): Promise<void> => {
     try {
         const { productId } = req.params;
         const result = await BicycleServices.getSingleBicycleFromDB(productId);
@@ -62,10 +62,11 @@ const getSingleBicycle = async (
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
         if (err.message === 'Product not found') {
-            return res.status(404).json({
+            res.status(404).json({
                 success: false,
                 message: 'Product not found'
             });
+            return;
         }
         next(err);
     }

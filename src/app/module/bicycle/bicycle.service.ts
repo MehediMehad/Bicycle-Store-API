@@ -24,6 +24,9 @@ const getAllBicyclesFromDB = async (searchTerm?: string) => {
 // Retrieves a single bicycle record from the database using its product ID.
 const getSingleBicycleFromDB = async (productId: string) => {
     const result = await BicycleModel.findOne({ _id: productId });
+    if (!result) {
+        throw new Error('Product not found');
+    }
     return result;
 };
 

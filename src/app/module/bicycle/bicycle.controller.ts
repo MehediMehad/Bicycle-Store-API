@@ -1,6 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 import { BicycleServices } from './bicycle.service';
 
+// Create a new Bicycle
 const createBicycle = async (
     req: Request,
     res: Response,
@@ -20,6 +21,7 @@ const createBicycle = async (
     }
 };
 
+// Call the service function to fetch all bicycles, with optional search filter
 const getAllBicycles = async (
     req: Request,
     res: Response,
@@ -41,7 +43,7 @@ const getAllBicycles = async (
     }
 };
 
-// Get Single Bicycle
+// Retrieve a single Bicycle by ID
 const getSingleBicycle = async (
     req: Request,
     res: Response,
@@ -49,20 +51,27 @@ const getSingleBicycle = async (
 ) => {
     try {
         const { productId } = req.params;
-
         const result = await BicycleServices.getSingleBicycleFromDB(productId);
 
+        // Send a success response with the list of bicycles
         res.status(200).json({
             success: true,
             message: 'Bicycle retrieved successfully',
             data: result
         });
-    } catch (err) {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (err: any) {
+        if (err.message === 'Product not found') {
+            return res.status(404).json({
+                success: false,
+                message: 'Product not found'
+            });
+        }
         next(err);
     }
 };
 
-// Update a Bicycle
+// Update a Bicycle's details by ID
 const updateBicycleDetailsById = async (
     req: Request,
     res: Response,
@@ -86,6 +95,7 @@ const updateBicycleDetailsById = async (
     }
 };
 
+// Delete a Bicycle by ID
 const deleteBicycleDetailsById = async (
     req: Request,
     res: Response,
@@ -105,7 +115,7 @@ const deleteBicycleDetailsById = async (
     }
 };
 
-//
+// Export all the controller methods for use in the routing
 export const bicycleController = {
     createBicycle,
     getAllBicycles,

@@ -1,11 +1,15 @@
 import { TOrder } from './order.interface';
 import OrderModel from './order.model';
 
+// Function to create a new order in the database
 const createOrderDB = async (order: TOrder) => {
     const result = await OrderModel.create(order);
     return result;
 };
+
+// Function to calculate total revenue from all orders in the database
 const calculateRevenueDB = async () => {
+    // Use Mongoose's `aggregate` method to perform an aggregation operation
     const result = await OrderModel.aggregate([
         {
             $group: {
@@ -19,6 +23,7 @@ const calculateRevenueDB = async () => {
     return result.length > 0 ? result[0].totalRevenue : 0;
 };
 
+// Export the services so they can be used in the controller or elsewhere
 export const OrderServices = {
     createOrderDB,
     calculateRevenueDB

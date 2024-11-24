@@ -14,34 +14,6 @@ This is a Bicycle Store API built with Express and TypeScript. It integrates Mon
 
 ---
 
-### API Endpoints
-
-### 1. Create a Bicycle
-
--   **Endpoint**: `/api/products`
--   **Method**: `POST`
--   **Request Body**:
-    ```json
-    {
-        "name": "Roadster 5000",
-        "brand": "SpeedX",
-        "price": 300,
-        "type": "Road",
-        "description": "A premium road bike designed for speed and performance.",
-        "quantity": 20,
-        "inStock": true
-    }
-    ```
-
-<!-- ### **Project Setup:** -->
-
--   Create an Express project with TypeScript.
--   Set up a MongoDB database to store **Products** (bicycles) and **Orders**.
--   Use Mongoose for schema definition and data operations.
--   Implement CRUD operations for both bicycles and orders.
-
-<!-- ---
-
 ### **Models:**
 
 1. **Product Model (Bicycle):**
@@ -58,45 +30,43 @@ This is a Bicycle Store API built with Express and TypeScript. It integrates Mon
     - **quantity** (number): The quantity of the ordered bicycle.
     - **totalPrice** (number): The total price (bicycle price \* quantity).
 
---- -->
+---
 
-<!-- ### **Generic Error Response:**
+### **Generic Error Response:**
 
 1. **`message`**: A brief error message explaining what went wrong.
 2. **`success`**: Set to `false` for error responses.
 3. **`error`**: The error message or error object returned by the application (e.g., `"ValidationError"`, `"Resource not found"`).
 4. **`stack`**: The stack trace showing where the error occurred in the code.
 
-### Example: -->
+### Example:
 
-<!-- ```json -->
-
+```json
 {
-"message": "Validation failed",
-"success": false,
-"error": {
-"name": "ValidationError",
-"errors": {
-"price": {
-"message": "Price must be a positive number",
-"name": "ValidatorError",
-"properties": {
-"message": "Price must be a positive number",
-"type": "min",
-"min": 0
-},
-"kind": "min",
-"path": "price",
-"value": -5
+    "message": "Validation failed",
+    "success": false,
+    "error": {
+        "name": "ValidationError",
+        "errors": {
+            "price": {
+                "message": "Price must be a positive number",
+                "name": "ValidatorError",
+                "properties": {
+                    "message": "Price must be a positive number",
+                    "type": "min",
+                    "min": 0
+                },
+                "kind": "min",
+                "path": "price",
+                "value": -5
+            }
+        }
+    },
+    "stack": "Error: Something went wrong\n    at app.js:23:13\n    at..."
 }
-}
-},
-"stack": "Error: Something went wrong\n at app.js:23:13\n at..."
-}
+```
 
-````
-
-### **API Endpoints:**
+### API Endpoints
 
 ---
 
@@ -116,7 +86,7 @@ This is a Bicycle Store API built with Express and TypeScript. It integrates Mon
     "quantity": 20,
     "inStock": true
 }
-````
+```
 
 -   **Response:** Success message and created bicycle details.
 
@@ -293,7 +263,7 @@ This is a Bicycle Store API built with Express and TypeScript. It integrates Mon
 
 -   **Endpoint:** **`/api/orders/revenue`**
 -   **Method:** `GET`
--   **Aggregation Suggestion:**
+-   **Aggregation:**
     -   Use MongoDB aggregation pipeline to calculate the total revenue from `all orders`.
     -   Calculate the total price by multiplying the price of each bicycle by the quantity ordered.
 -   **Response:** The total revenue from all orders.
@@ -310,35 +280,37 @@ This is a Bicycle Store API built with Express and TypeScript. It integrates Mon
 
 ---
 
-### **Bonus Section (10 Marks):**
+### Setup Instructions
 
-1. **Code Quality:**
-    - Write clean, well-documented code.
-    - Use meaningful variable and function names.
-2. **API Structure:**
-    - **API endpoints should be the same as we have provided. If you don't follow the API structure and response structure your mark will be deducted.**
-    - Follow the API structure exactly as outlined above.
-    - Ensure request and response formats match the specifications.
-3. **Error Handling:**
-    - Implement proper error handling for scenarios like invalid input, missing data, and insufficient stock.
-    - **Not Found**: If a book or order is not found, return a `404` error with an appropriate message.
-    - **Validation Errors**: Return specific error messages for validation failures (e.g., invalid email, insufficient stock).
-4. **Video Explanation:**
-    - Record a video explaining the key features of your Book Store API and the logic behind its design and test APIs.
+#### Prerequisites
 
----
+-   **Node.js:** **`(v16+)`**
+-   **MongoDB** **`(Local or Remote)`**
 
-### **Submission:**
+**1. Clone the Repository**
 
-1. **GitHub Repository Link**
-2. **Live Deployment Link**
-3. **Video Explanation (Public Link)**
-4. **Professional README file** with features of your application and instructions on setting up the project locally.
+```bash
+git clone https://github.com/MehediMehad/Pedal-Power.git
+cd Pedal-Power
+```
 
----
+**2. Install Dependencies**
 
-### **Deadline:**
+```bash
+npm install
+npm run build
+```
 
--   **60 Marks:** November 24, 2024
--   **50 Marks:** November 25, 2024
--   **30 Marks:** After November 25, 2024
+**3. Configure Environment Variables**
+`Create` **`.env`** `file in the root directory and add the following variables:`
+
+```bash
+MONGODB_URI=mongodb://localhost:27017/bicycle-store
+PORT=5000
+```
+
+**4. Start the Application**
+
+```bash
+npm run start:dev
+```

@@ -1,11 +1,11 @@
-import { NextFunction, Request, Response } from 'express';
+import { Request, Response } from 'express';
 import config from '../../config';
 
 const errorMiddleware = (
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     err: any,
     req: Request,
-    res: Response,
-    next: NextFunction
+    res: Response
 ) => {
     const statusCode = err.statusCode || 500;
 

@@ -49,7 +49,15 @@ const createOrder = async (
             message: 'Order created successfully!',
             data: result
         });
-    } catch (err) {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (err: any) {
+        if (err.message) {
+            res.status(500).json({
+                success: false,
+                error: err.message || err
+            });
+            return;
+        }
         next(err);
     }
 };
@@ -68,7 +76,15 @@ const getAndCalculateRevenue = async (
             status: true,
             data: { totalRevenue }
         });
-    } catch (err) {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (err: any) {
+        if (err.message) {
+            res.status(500).json({
+                success: false,
+                error: err.message || err
+            });
+            return;
+        }
         next(err);
     }
 };

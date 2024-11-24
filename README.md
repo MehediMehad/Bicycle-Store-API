@@ -1,5 +1,8 @@
 # Bicycle Store API
 
+**Live Deployment:** https://bicycle-store-api.vercel.app/
+**Video Explanation:**
+
 This is a Bicycle Store API built with Express and TypeScript. It integrates MongoDB with Mongoose for managing products (bicycles) and orders, providing a full CRUD functionality. The project also includes error handling, input validation, and inventory management.
 
 ---

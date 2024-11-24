@@ -16,7 +16,15 @@ const createBicycle = async (
             message: 'Bicycle created successfully!',
             data: result
         });
-    } catch (err) {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (err: any) {
+        if (err.message) {
+            res.status(500).json({
+                success: false,
+                error: err.message || err
+            });
+            return;
+        }
         next(err);
     }
 };
@@ -38,7 +46,15 @@ const getAllBicycles = async (
             message: 'Bicycles retrieved successfully!',
             data: result
         });
-    } catch (err) {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (err: any) {
+        if (err.message) {
+            res.status(500).json({
+                success: false,
+                error: err.message || err
+            });
+            return;
+        }
         next(err);
     }
 };
@@ -91,7 +107,15 @@ const updateBicycleDetailsById = async (
             message: 'Bicycle updated successfully!',
             data: result
         });
-    } catch (err) {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (err: any) {
+        if (err.message) {
+            res.status(500).json({
+                success: false,
+                error: err.message || err
+            });
+            return;
+        }
         next(err);
     }
 };
@@ -111,7 +135,15 @@ const deleteBicycleDetailsById = async (
             message: 'Bicycle deleted successfully!',
             data: result
         });
-    } catch (err) {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (err: any) {
+        if (err.message) {
+            res.status(500).json({
+                success: false,
+                error: err.message || err
+            });
+            return;
+        }
         next(err);
     }
 };

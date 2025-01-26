@@ -1,12 +1,12 @@
-import { Router } from 'express';
 import { bicycleController } from './bicycle.controller';
+import express from 'express';
 
-const bicycleRouter = Router();
+const router = express.Router();
 
-bicycleRouter.post('/', bicycleController.createBicycle);
-bicycleRouter.get('/', bicycleController.getAllBicycles);
-bicycleRouter.get('/:productId', bicycleController.getSingleBicycle);
-bicycleRouter.put('/:productId', bicycleController.updateBicycleDetailsById);
-bicycleRouter.delete('/:productId', bicycleController.deleteBicycleDetailsById);
+router.post('/', bicycleController.createBicycle);
+router.get('/', bicycleController.getAllBicycles);
+router.get('/:productId', bicycleController.getSingleBicycle);
+router.put('/:productId', bicycleController.updateBicycleDetailsById);
+router.delete('/:productId', bicycleController.deleteBicycleDetailsById);
 
-export default bicycleRouter;
+export const BicycleRouter = router;

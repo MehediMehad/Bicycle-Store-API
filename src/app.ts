@@ -1,18 +1,16 @@
 import express, { Application, Request, Response } from 'express';
 import config from './app/config';
 import cors from 'cors';
-import bicycleRouter from './app/module/bicycle/bicycle.router';
-import orderRouter from './app/module/order/order.route';
 import errorMiddleware from './app/Middleware/Middleware';
+import router from './app/routes';
 const app: Application = express();
 
 // Parsers: Middleware to parse incoming request bodies
 app.use(express.json());
 app.use(cors());
 
-// Set up API route handlers
-app.use('/api/products', bicycleRouter);
-app.use('/api/orders', orderRouter);
+// Mount the router at /api so all its routes start with /api
+app.use('/api', router);
 
 // applications routs
 const getAController = (req: Request, res: Response) => {

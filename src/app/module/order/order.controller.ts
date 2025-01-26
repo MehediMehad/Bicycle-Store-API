@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 import { OrderServices } from './oder.service';
-import BicycleModel from '../bicycle/bicycle.model';
+import Bicycle from '../bicycle/bicycle.model';
 
 // Create Order Controller
 const createOrder = async (
@@ -12,7 +12,7 @@ const createOrder = async (
         const { email, product: bicycleId, quantity, totalPrice } = req.body;
 
         // Fetch the product from the database to check inventory
-        const bicycle = await BicycleModel.findById(bicycleId);
+        const bicycle = await Bicycle.findById(bicycleId);
 
         if (!bicycle) {
             res.status(404).json({

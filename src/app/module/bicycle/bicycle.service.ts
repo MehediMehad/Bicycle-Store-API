@@ -1,9 +1,9 @@
 import { TBicycle } from './bicycle.interface';
-import BicycleModel from './bicycle.model';
+import Bicycle from './bicycle.model';
 
 // The function inserts a new document into the Bicycle collection.
 const createBicycleDB = async (bicycle: TBicycle): Promise<TBicycle> => {
-    const result = await BicycleModel.create(bicycle);
+    const result = await Bicycle.create(bicycle);
     return result;
 };
 
@@ -17,13 +17,13 @@ const getAllBicyclesFromDB = async (searchTerm?: string) => {
         filter.$or = [{ name: regex }, { brand: regex }, { type: regex }];
     }
 
-    const result = await BicycleModel.find(filter);
+    const result = await Bicycle.find(filter);
     return result;
 };
 
 // Retrieves a single bicycle record from the database using its product ID.
 const getSingleBicycleFromDB = async (productId: string) => {
-    const result = await BicycleModel.findOne({ _id: productId });
+    const result = await Bicycle.findOne({ _id: productId });
     if (!result) {
         throw new Error('Product not found');
     }
@@ -32,14 +32,14 @@ const getSingleBicycleFromDB = async (productId: string) => {
 
 // Updates a bicycle record in the database using its ID and the provided data.
 const updateBicycleByIdFromDB = async (id: string, data: TBicycle) => {
-    const result = await BicycleModel.findByIdAndUpdate(id, data, {
+    const result = await Bicycle.findByIdAndUpdate(id, data, {
         new: true
     });
     return result;
 };
 
 const deleteBicycleByIdFromDB = async (id: string) => {
-    const result = await BicycleModel.deleteOne({ _id: id });
+    const result = await Bicycle.deleteOne({ _id: id });
     return result;
 };
 

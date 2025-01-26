@@ -48,6 +48,6 @@ const bicycleSchema = new Schema<TBicycle>(
     { timestamps: true }
 );
 
-const BicycleModel = model<TBicycle>('Bicycle', bicycleSchema);
+const Bicycle = model<TBicycle>('Bicycle', bicycleSchema);
 
-export default BicycleModel;
+export default Bicycle;

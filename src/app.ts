@@ -1,8 +1,9 @@
 import express, { Application, Request, Response } from 'express';
 import config from './app/config';
 import cors from 'cors';
-import errorMiddleware from './app/Middleware/Middleware';
 import router from './app/routes';
+import globalErrorHandle from './app/Middleware/globalErrorHandler';
+import notFound from './app/Middleware/notFound';
 const app: Application = express();
 
 // Parsers: Middleware to parse incoming request bodies
@@ -14,6 +15,7 @@ app.use('/api', router);
 
 // applications routs
 const getAController = (req: Request, res: Response) => {
+    Promise.reject();
     res.send(`The bicycle is moving at a speed of ${config.port} 🚴`);
 };
 
@@ -21,6 +23,9 @@ const getAController = (req: Request, res: Response) => {
 app.get('/', getAController);
 
 // Error-handling middleware (should be defined to handle errors globally)
-app.use(errorMiddleware);
+app.use(globalErrorHandle);
+
+// not found
+app.use(notFound);
 
 export default app;

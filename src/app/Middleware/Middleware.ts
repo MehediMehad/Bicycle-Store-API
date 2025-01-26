@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import config from '../../config';
+import config from '../config';
 
 const errorMiddleware = (
     // eslint-disable-next-line @typescript-eslint/no-explicit-any

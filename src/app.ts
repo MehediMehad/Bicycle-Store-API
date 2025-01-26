@@ -3,7 +3,7 @@ import config from './app/config';
 import cors from 'cors';
 import bicycleRouter from './app/module/bicycle/bicycle.router';
 import orderRouter from './app/module/order/order.route';
-import errorMiddleware from './app/module/Middleware/Middleware';
+import errorMiddleware from './app/Middleware/Middleware';
 const app: Application = express();
 
 // Parsers: Middleware to parse incoming request bodies

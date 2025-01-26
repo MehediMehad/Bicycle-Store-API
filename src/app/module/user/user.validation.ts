@@ -4,10 +4,6 @@ import { UserRole, UserStatus } from './user.constant';
 // Validation schema for creating a user
 const createUserValidationSchema = z.object({
     body: z.object({
-        id: z
-            .string()
-            .min(1, { message: 'User ID is required' })
-            .nonempty({ message: 'User ID cannot be empty' }),
         name: z
             .string()
             .min(3, { message: 'Name must be at least 3 characters long' })
@@ -19,7 +15,7 @@ const createUserValidationSchema = z.object({
         }),
         password: z
             .string()
-            .min(8, { message: 'Password must be at least 8 characters long' })
+            .min(6, { message: 'Password must be at least 6 characters long' })
             .max(128, { message: 'Password cannot exceed 128 characters' }),
         role: z.enum([...UserRole] as [string, ...string[]], {
             errorMap: () => ({

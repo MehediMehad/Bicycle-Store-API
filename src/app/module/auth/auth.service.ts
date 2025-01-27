@@ -2,17 +2,16 @@ import { StatusCodes } from 'http-status-codes';
 import AppError from '../../errors/AppError';
 import { User } from '../user/user.model';
 import { TLoginUser } from './auth.interface';
-import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
+import config from '../../config';
 
 const loginUser = async (payload: TLoginUser) => {
-    console.log(payload);
-
     /*
     step 1: check if user exists
     step 2: check if the user already deleted
     step 3: check if the user is blocked
     step 4: check if the password is correct
-    step 4: check if the password is correct
+    step 4: crate token and sent to the client
     */
     const user = await User.isUserExistsByEmail(payload.email);
     if (!user) {
@@ -30,8 +29,19 @@ const loginUser = async (payload: TLoginUser) => {
     if (!(await User.isPasswordMatched(payload.password, user.password))) {
         throw new AppError(StatusCodes.UNAUTHORIZED, 'Password is incorrect!');
     }
+    const jwtPayload = { userEmail: user.email, userRole: user.role };
 
-    return {};
+    const accessToken = jwt.sign(
+        jwtPayload,
+        config.jwt_access_secret as string,
+        {
+            expiresIn: '30d'
+        }
+    );
+
+    return {
+        accessToken
+    };
 };
 
 export const AuthServices = {

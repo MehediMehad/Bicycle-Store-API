@@ -1,3 +1,5 @@
+import { Model } from 'mongoose';
+
 export type TUserRole = 'admin' | 'customer';
 export type TUserStatus = 'in-progress' | 'blocked';
 
@@ -8,4 +10,7 @@ export interface TUser {
     role: TUserRole;
     status?: TUserStatus;
     isDeleted?: boolean;
+}
+export interface UserModel extends Model<TUser> {
+    isUserExists(id: string): Promise<TUser | null>;
 }

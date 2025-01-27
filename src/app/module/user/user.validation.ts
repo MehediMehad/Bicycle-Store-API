@@ -17,11 +17,13 @@ const createUserValidationSchema = z.object({
             .string()
             .min(6, { message: 'Password must be at least 6 characters long' })
             .max(128, { message: 'Password cannot exceed 128 characters' }),
-        role: z.enum([...UserRole] as [string, ...string[]], {
-            errorMap: () => ({
-                message: `Invalid role. Allowed roles are: ${UserRole.join(', ')}.`
+        role: z
+            .enum([...UserRole] as [string, ...string[]], {
+                errorMap: () => ({
+                    message: `Invalid role. Allowed roles are: ${UserRole.join(', ')}.`
+                })
             })
-        }),
+            .default('customer'),
         status: z
             .enum([...UserStatus] as [string, ...string[]], {
                 errorMap: () => ({

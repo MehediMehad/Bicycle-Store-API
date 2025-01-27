@@ -2,6 +2,7 @@ import { StatusCodes } from 'http-status-codes';
 import AppError from '../../errors/AppError';
 import { User } from '../user/user.model';
 import { TLoginUser } from './auth.interface';
+import bcrypt from 'bcrypt';
 
 const loginUser = async (payload: TLoginUser) => {
     console.log(payload);
@@ -13,18 +14,24 @@ const loginUser = async (payload: TLoginUser) => {
     step 4: check if the password is correct
     step 4: check if the password is correct
     */
-    const isUserExists = await User.findOne({ email: payload.email });
-    if (!isUserExists) {
+    const user = await User.isUserExistsByEmail(payload.email);
+    if (!user) {
         throw new AppError(StatusCodes.NOT_FOUND, 'User not found!');
     }
-    const isUserDeleted = isUserExists.isDeleted;
+    const isUserDeleted = user.isDeleted;
     if (isUserDeleted) {
         throw new AppError(StatusCodes.FORBIDDEN, 'This is user deleted!');
     }
-    const isUserBlocked = isUserExists.status === 'blocked';
+    const isUserBlocked = user.status === 'blocked';
     if (isUserBlocked) {
         throw new AppError(StatusCodes.FORBIDDEN, 'This is user blocked!');
     }
+
+    if (!(await User.isPasswordMatched(payload.password, user.password))) {
+        throw new AppError(StatusCodes.UNAUTHORIZED, 'Password is incorrect!');
+    }
+
+    return {};
 };
 
 export const AuthServices = {

@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { Model } from 'mongoose';
 
 export type TUserRole = 'admin' | 'customer';
@@ -12,5 +13,9 @@ export interface TUser {
     isDeleted?: boolean;
 }
 export interface UserModel extends Model<TUser> {
-    isUserExists(id: string): Promise<TUser | null>;
+    isUserExistsByEmail(email: string): Promise<TUser>;
+    isPasswordMatched(
+        plainTextPassword: string,
+        hashPassword: string
+    ): Promise<boolean>;
 }

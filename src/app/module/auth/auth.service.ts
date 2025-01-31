@@ -3,8 +3,7 @@ import AppError from '../../errors/AppError';
 import { User } from '../user/user.model';
 import { TLoginUser } from './auth.interface';
 import config from '../../config';
-import jwt from 'jsonwebtoken';
-import { createToken } from './auth.utils';
+import { createToken, verifyToken } from './auth.utils';
 
 const loginUser = async (payload: TLoginUser) => {
     /*
@@ -55,7 +54,39 @@ const loginUser = async (payload: TLoginUser) => {
         refreshToken
     };
 };
+const refreshToken = async (token: string) => {
+    // checking if the given token is valid
+    const decoded = verifyToken(token, config.jwt_refresh_secret as string);
+
+    const { userEmail } = decoded;
+
+    const user = await User.isUserExistsByEmail(userEmail);
+
+    if (!user) {
+        throw new AppError(StatusCodes.NOT_FOUND, 'The user is not found');
+    }
+    if (user?.isDeleted) {
+        throw new AppError(StatusCodes.NOT_FOUND, 'The user is deleted');
+    }
+    if (user?.status === 'blocked') {
+        throw new AppError(StatusCodes.NOT_FOUND, 'The user is blocked');
+    }
+
+    const jwtPayload = {
+        userEmail: user.email,
+        userRole: user.role
+    };
+    const accessToken = createToken(
+        jwtPayload,
+        config.jwt_access_secret as string,
+        Number(config.jwt_access_expires_in)
+    );
+    return {
+        accessToken
+    };
+};
 
 export const AuthServices = {
-    loginUser
+    loginUser,
+    refreshToken
 };

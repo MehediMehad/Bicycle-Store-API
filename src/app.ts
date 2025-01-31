@@ -2,13 +2,15 @@ import express, { Application, Request, Response } from 'express';
 import config from './app/config';
 import cors from 'cors';
 import router from './app/routes';
+import cookieParser from 'cookie-parser';
 import globalErrorHandle from './app/Middleware/globalErrorHandler';
 import notFound from './app/Middleware/notFound';
 const app: Application = express();
 
 // Parsers: Middleware to parse incoming request bodies
 app.use(express.json());
-app.use(cors());
+app.use(cookieParser());
+app.use(cors({ origin: 'http://localhost:5173', credentials: true }));
 
 // Mount the router at /api so all its routes start with /api
 app.use('/api', router);

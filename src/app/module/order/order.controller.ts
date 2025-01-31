@@ -68,6 +68,7 @@ const getAndCalculateRevenue = async (
     res: Response,
     next: NextFunction
 ) => {
+    console.log(req.cookies);
     try {
         const totalRevenue = await OrderServices.calculateRevenueDB();
 

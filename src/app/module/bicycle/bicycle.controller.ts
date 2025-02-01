@@ -1,5 +1,8 @@
 import { NextFunction, Request, Response } from 'express';
 import { BicycleServices } from './bicycle.service';
+import catchAsync from '../../utils/catchAsync';
+import sendResponse from '../../utils/sendResponse';
+import { StatusCodes } from 'http-status-codes';
 
 // Create a new Bicycle
 const createBicycle = async (
@@ -30,34 +33,17 @@ const createBicycle = async (
 };
 
 // Call the service function to fetch all bicycles, with optional search filter
-const getAllBicycles = async (
-    req: Request,
-    res: Response,
-    next: NextFunction
-) => {
-    try {
-        const { searchTerm } = req.query;
-        const result = await BicycleServices.getAllBicyclesFromDB(
-            searchTerm as string
-        );
+const getAllBicycles = catchAsync(async (req, res) => {
+    const result = await BicycleServices.getAllBicyclesFromDB(req.query);
 
-        res.status(200).json({
-            success: true,
-            message: 'Bicycles retrieved successfully!',
-            data: result
-        });
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } catch (err: any) {
-        if (err.message) {
-            res.status(500).json({
-                success: false,
-                error: err.message || err
-            });
-            return;
-        }
-        next(err);
-    }
-};
+    sendResponse(res, {
+        statusCode: StatusCodes.OK,
+        success: true,
+        message: 'Bicycles retrieved successfully!',
+        meta: result.meta,
+        data: result.result
+    });
+});
 
 // Retrieve a single Bicycle by ID
 const getSingleBicycle = async (

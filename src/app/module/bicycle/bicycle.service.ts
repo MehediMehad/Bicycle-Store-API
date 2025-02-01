@@ -1,3 +1,4 @@
+import QueryBuilder from '../../builder/QueryBuilder';
 import { TBicycle } from './bicycle.interface';
 import Bicycle from './bicycle.model';
 
@@ -8,17 +9,21 @@ const createBicycleDB = async (bicycle: TBicycle): Promise<TBicycle> => {
 };
 
 // This function returns all documents in the Bicycle collection.
-const getAllBicyclesFromDB = async (searchTerm?: string) => {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const filter: any = {};
+const getAllBicyclesFromDB = async (query: Record<string, unknown>) => {
+    const bicycleQuery = new QueryBuilder(Bicycle.find(), query)
+        .search(['name', 'brand'])
+        .filter()
+        .sort()
+        .paginate()
+        .fields();
 
-    if (searchTerm) {
-        const regex = new RegExp(searchTerm, 'i');
-        filter.$or = [{ name: regex }, { brand: regex }, { type: regex }];
-    }
+    const result = await bicycleQuery.modelQuery;
+    const meta = await bicycleQuery.countTotal();
 
-    const result = await Bicycle.find(filter);
-    return result;
+    return {
+        meta,
+        result
+    };
 };
 
 // Retrieves a single bicycle record from the database using its product ID.

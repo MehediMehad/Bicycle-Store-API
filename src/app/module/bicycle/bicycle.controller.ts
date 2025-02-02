@@ -12,7 +12,10 @@ const createBicycle = async (
 ) => {
     try {
         const bicycleData = req.body;
-        const result = await BicycleServices.createBicycleDB(bicycleData);
+        const result = await BicycleServices.createBicycleDB(
+            req.file,
+            bicycleData
+        );
 
         res.status(200).json({
             success: true,

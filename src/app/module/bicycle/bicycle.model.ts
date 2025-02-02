@@ -17,6 +17,10 @@ const bicycleSchema = new Schema<TBicycle>(
             minlength: [2, 'Brand must be at least 2 characters long'],
             maxlength: [50, 'Brand cannot exceed 50 characters']
         },
+        image: {
+            type: String,
+            required: false
+        },
         price: {
             type: Number,
             required: [true, 'Price is required'],

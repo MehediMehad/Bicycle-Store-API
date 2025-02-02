@@ -1,10 +1,22 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import QueryBuilder from '../../builder/QueryBuilder';
+import { sendImageToCloudinary } from '../../utils/sendImageToCloudinary';
 import { TBicycle } from './bicycle.interface';
 import Bicycle from './bicycle.model';
 
 // The function inserts a new document into the Bicycle collection.
-const createBicycleDB = async (bicycle: TBicycle): Promise<TBicycle> => {
+const createBicycleDB = async (
+    file: any,
+    bicycle: TBicycle
+): Promise<TBicycle> => {
+    const imageName = `${bicycle?.brand}`;
+    const { secure_url } = (await sendImageToCloudinary(
+        imageName,
+        file?.path
+    )) as { secure_url: string };
     const result = await Bicycle.create(bicycle);
+    result.image = secure_url;
+    await result.save();
     return result;
 };
 

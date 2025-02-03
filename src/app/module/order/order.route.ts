@@ -4,7 +4,7 @@ import express from 'express';
 
 const router = express.Router();
 
-router.post('/', orderController.createOrder);
+router.post('/', auth('customer'), orderController.createOrder);
 router.get(
     '/revenue',
     auth('customer'),

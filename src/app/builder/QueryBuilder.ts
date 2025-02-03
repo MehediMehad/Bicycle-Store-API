@@ -13,7 +13,7 @@ class QueryBuilder<T> {
         if (searchTerm) {
             this.modelQuery = this.modelQuery.find({
                 $or: searchableFields.map(
-                    (field) =>
+                    field =>
                         ({
                             [field]: { $regex: searchTerm, $options: 'i' }
                         }) as FilterQuery<T>
@@ -25,10 +25,22 @@ class QueryBuilder<T> {
     filter() {
         const queryObj = { ...this.query }; // copy
 
-        // Filtering
+        // Filtering fields exclude
         const excludeFields = ['searchTerm', 'sort', 'limit', 'page', 'fields'];
+        excludeFields.forEach(el => delete queryObj[el]);
 
-        excludeFields.forEach((el) => delete queryObj[el]);
+        // Price range filter (minPrice & maxPrice)
+        if (queryObj.minPrice || queryObj.maxPrice) {
+            queryObj.price = {}; // নতুন price অবজেক্ট তৈরি করলাম
+            if (queryObj.minPrice) {
+                queryObj.price.$gte = Number(queryObj.minPrice); // minPrice সেট করলাম
+            }
+            if (queryObj.maxPrice) {
+                queryObj.price.$lte = Number(queryObj.maxPrice); // maxPrice সেট করলাম
+            }
+            delete queryObj.minPrice;
+            delete queryObj.maxPrice;
+        }
 
         this.modelQuery = this.modelQuery.find(queryObj as FilterQuery<T>);
         return this;

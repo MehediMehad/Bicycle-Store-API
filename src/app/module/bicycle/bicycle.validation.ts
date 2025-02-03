@@ -1,5 +1,10 @@
 import { z } from 'zod';
-import { BicycleBrand, BicycleColor, BicycleType } from './bicycle.constant';
+import {
+    BicycleAvailability,
+    BicycleBrand,
+    BicycleColor,
+    BicycleType
+} from './bicycle.constant';
 
 // Validation schema for creating a user
 const createBicycleValidationSchema = z.object({
@@ -34,7 +39,15 @@ const createBicycleValidationSchema = z.object({
             errorMap: () => ({
                 message: `Invalid Color. Allowed types are: ${BicycleColor.join(', ')}.`
             })
-        })
+        }),
+        availability: z.enum(
+            [...BicycleAvailability] as [string, ...string[]],
+            {
+                errorMap: () => ({
+                    message: `Invalid Color. Allowed Availability are: ${BicycleAvailability.join(', ')}.`
+                })
+            }
+        )
     })
 });
 

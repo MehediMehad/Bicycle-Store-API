@@ -24,3 +24,4 @@ export const BicycleColor = [
     'Yellow',
     'Gray'
 ];
+export const BicycleAvailability = ['In Stock', 'Out of Stock', 'Pre-Order'];

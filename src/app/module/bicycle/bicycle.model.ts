@@ -52,6 +52,15 @@ const bicycleSchema = new Schema<TBicycle>(
             },
             required: [true, 'Bike type is required.']
         },
+        availability: {
+            type: String,
+            enum: {
+                values: ['In Stock', 'Out of Stock', 'Pre-Order'],
+                message:
+                    '{VALUE} is not a valid bike availability. Please choose from: In Stock, Out of Stock, Pre-Order.'
+            },
+            required: [true, 'Availability type is required.']
+        },
         color: {
             type: String,
             enum: {

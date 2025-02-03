@@ -18,6 +18,7 @@ export type TBicycle = {
     price: number;
     type: 'Mountain' | 'Road' | 'Hybrid' | 'BMX' | 'Electric';
     color: 'Red' | 'Blue' | 'Black' | 'White' | 'Green' | 'Yellow' | 'Gray';
+    availability: 'In Stock' | 'Out of Stock' | 'Pre-Order';
     description: string;
     image?: string;
     quantity: number;

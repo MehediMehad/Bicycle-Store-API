@@ -10,13 +10,6 @@ const bicycleSchema = new Schema<TBicycle>(
             minlength: [3, 'Name must be at least 3 characters long'],
             maxlength: [50, 'Name cannot exceed 50 characters']
         },
-        brand: {
-            type: String,
-            required: [true, 'Brand is required'],
-            trim: true,
-            minlength: [2, 'Brand must be at least 2 characters long'],
-            maxlength: [50, 'Brand cannot exceed 50 characters']
-        },
         image: {
             type: String,
             required: false
@@ -26,6 +19,30 @@ const bicycleSchema = new Schema<TBicycle>(
             required: [true, 'Price is required'],
             min: [0, 'Price cannot be negative']
         },
+        brand: {
+            type: String,
+            enum: {
+                values: [
+                    'Giant',
+                    'Trek',
+                    'Specialized',
+                    'Cannondale',
+                    'Scott',
+                    'Bianchi',
+                    'Merida',
+                    'Duranta',
+                    'Veloce',
+                    'Prince',
+                    'Phoenix',
+                    'Hero',
+                    'Atlas',
+                    'Avon'
+                ],
+                message:
+                    '{VALUE} is not a valid bike type. Please choose from: Phoenix, Atlas, Giant, Trek, or Electric.'
+            },
+            required: [true, 'brand type is required.']
+        },
         type: {
             type: String,
             enum: {
@@ -34,6 +51,23 @@ const bicycleSchema = new Schema<TBicycle>(
                     '{VALUE} is not a valid bike type. Please choose from: Mountain, Road, Hybrid, BMX, or Electric.'
             },
             required: [true, 'Bike type is required.']
+        },
+        color: {
+            type: String,
+            enum: {
+                values: [
+                    'Red',
+                    'Blue',
+                    'Black',
+                    'White',
+                    'Green',
+                    'Yellow',
+                    'Gray'
+                ],
+                message:
+                    '{VALUE} is not a valid bike type. Please choose from: Black, Blue, White, Gray, or Electric.'
+            },
+            required: [true, 'Bike color is required.']
         },
         description: {
             type: String,

@@ -12,7 +12,19 @@ const createUser = catchAsync(async (req, res) => {
         data: result
     });
 });
+const getAllStudents = catchAsync(async (req, res) => {
+    const result = await UserServices.getAllUserFromDB(req.query);
+    // console.log(JSON.stringify(result, null, 1));
 
+    sendResponse(res, {
+        statusCode: StatusCodes.OK,
+        success: true,
+        message: 'Students are retrieved successfully!',
+        meta: result.meta,
+        data: result.result
+    });
+});
 export const UserControllers = {
-    createUser
+    createUser,
+    getAllStudents
 };

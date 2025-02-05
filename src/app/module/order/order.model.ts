@@ -18,14 +18,27 @@ const orderSchema = new Schema<TOrder>(
         },
         quantity: {
             type: Number,
-            required: true,
-            default: 0,
-            min: [1, 'Quantity must be at least 1']
+            required: [true, 'Quantity is required'],
+            default: 0
         },
         totalPrice: {
             type: Number,
             default: 0,
             min: [0, 'Total price cannot be negative']
+        },
+        status: {
+            type: String,
+            enum: ['Pending', 'Paid', 'Shipped', 'Completed', 'Cancelled'],
+            default: 'Pending'
+        },
+        transaction: {
+            id: String,
+            transactionStatus: String,
+            bank_status: String,
+            sp_code: String,
+            sp_message: String,
+            method: String,
+            date_time: String
         }
     },
     { timestamps: true }

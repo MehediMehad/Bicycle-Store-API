@@ -10,5 +10,6 @@ router.post(
     validateRequest(userValidationSchema.createUserValidationSchema),
     UserControllers.createUser
 );
+router.patch('/', UserControllers.updateUserStatus);
 router.get('/', UserControllers.getAllStudents);
 export const UserRouter = router;

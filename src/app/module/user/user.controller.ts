@@ -2,6 +2,7 @@ import catchAsync from '../../utils/catchAsync';
 import sendResponse from '../../utils/sendResponse';
 import { StatusCodes } from 'http-status-codes';
 import { UserServices } from './user.service';
+import { RequestHandler } from 'express';
 
 const createUser = catchAsync(async (req, res) => {
     const result = await UserServices.createUserIntoDB(req.body);
@@ -24,7 +25,21 @@ const getAllStudents = catchAsync(async (req, res) => {
         data: result.result
     });
 });
+const updateUserStatus: RequestHandler = catchAsync(async (req, res) => {
+    const { _id, status } = req.body;
+
+    const result = await UserServices.updateUserStatusIntoDB(_id, { status });
+
+    sendResponse(res, {
+        statusCode: StatusCodes.OK,
+        success: true,
+        message: 'User is updated successfully!',
+        data: result
+    });
+});
+
 export const UserControllers = {
     createUser,
-    getAllStudents
+    getAllStudents,
+    updateUserStatus
 };

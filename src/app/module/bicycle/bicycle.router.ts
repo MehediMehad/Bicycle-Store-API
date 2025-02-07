@@ -13,13 +13,22 @@ router.post(
     (req: Request, res: Response, next: NextFunction) => {
         req.body = JSON.parse(req.body.data);
         next();
-    }, //TODO:
+    },
     validateRequest(bicycleValidationSchema.createBicycleValidationSchema),
     bicycleController.createBicycle
 );
 router.get('/', bicycleController.getAllBicycles);
 router.get('/:productId', bicycleController.getSingleBicycle);
-router.put('/:productId', bicycleController.updateBicycleDetailsById);
+router.put(
+    '/:productId',
+    upload.single('file'),
+    (req: Request, res: Response, next: NextFunction) => {
+        req.body = JSON.parse(req.body.data);
+        next();
+    },
+    // validateRequest(bicycleValidationSchema.updateBicycleValidationSchema),
+    bicycleController.updateBicycleDetailsById
+);
 router.delete('/:productId', bicycleController.deleteBicycleDetailsById);
 
 export const BicycleRouter = router;

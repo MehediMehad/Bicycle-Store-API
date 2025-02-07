@@ -11,5 +11,5 @@ router.post(
     UserControllers.createUser
 );
 router.patch('/', UserControllers.updateUserStatus);
-router.get('/', UserControllers.getAllStudents);
+router.get('/', UserControllers.getAllUsers);
 export const UserRouter = router;

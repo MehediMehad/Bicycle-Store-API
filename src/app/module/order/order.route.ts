@@ -4,8 +4,8 @@ import express from 'express';
 
 const router = express.Router();
 
-router.post('/', auth('customer'), orderController.createOrder);
-router.get('/', auth('customer'), orderController.getOrders);
+router.post('/', auth('admin'), orderController.createOrder);
+router.get('/', auth('admin'), orderController.getOrders);
 router.get('/verify', auth('customer'), orderController.verifyPayment);
 
 router.get(

@@ -9,18 +9,18 @@ const createUser = catchAsync(async (req, res) => {
     sendResponse(res, {
         statusCode: StatusCodes.OK,
         success: true,
-        message: 'OfferedCourse fetched successfully',
+        message: 'Create user successfully',
         data: result
     });
 });
-const getAllStudents = catchAsync(async (req, res) => {
+const getAllUsers = catchAsync(async (req, res) => {
     const result = await UserServices.getAllUserFromDB(req.query);
     // console.log(JSON.stringify(result, null, 1));
 
     sendResponse(res, {
         statusCode: StatusCodes.OK,
         success: true,
-        message: 'Students are retrieved successfully!',
+        message: 'Users are retrieved successfully!',
         meta: result.meta,
         data: result.result
     });
@@ -40,6 +40,6 @@ const updateUserStatus: RequestHandler = catchAsync(async (req, res) => {
 
 export const UserControllers = {
     createUser,
-    getAllStudents,
+    getAllUsers,
     updateUserStatus
 };

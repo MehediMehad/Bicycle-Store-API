@@ -5,36 +5,65 @@ import sendResponse from '../../utils/sendResponse';
 import { StatusCodes } from 'http-status-codes';
 
 // Create a new Bicycle
-const createBicycle = async (
-    req: Request,
-    res: Response,
-    next: NextFunction
-) => {
-    try {
-        const bicycleData = req.body;
-        const result = await BicycleServices.createBicycleDB(
-            req.file,
-            bicycleData
-        );
+// const createBicycle2 = async (
+//     req: Request,
+//     res: Response,
+//     next: NextFunction
+// ) => {
+//     try {
+//         const bicycleData = req.body;
+//         const result = await BicycleServices.createBicycleDB(
+//             req.file,
+//             bicycleData
+//         );
 
-        res.status(200).json({
-            success: true,
-            message: 'Bicycle created successfully!',
-            data: result
-        });
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } catch (err: any) {
-        if (err.message) {
-            res.status(500).json({
-                success: false,
-                error: err.message || err
-            });
-            return;
-        }
-        next(err);
-    }
-};
+//         res.status(200).json({
+//             success: true,
+//             message: 'Bicycle created successfully!',
+//             data: result
+//         });
+//         // eslint-disable-next-line @typescript-eslint/no-explicit-any
+//     } catch (err: any) {
+//         if (err.message) {
+//             res.status(500).json({
+//                 success: false,
+//                 error: err.message || err
+//             });
+//             return;
+//         }
+//         next(err);
+//     }
+// };
 
+const createBicycle = catchAsync(async (req, res) => {
+    const bicycleData = req.body;
+    const result = await BicycleServices.createBicycleDB(req.file, bicycleData);
+
+    sendResponse(res, {
+        statusCode: StatusCodes.CREATED,
+        success: true,
+        message: 'Bicycle created successfully!',
+        data: result
+    });
+});
+const updateBicycleDetailsById = catchAsync(async (req, res) => {
+    const bicycleId = req.params.productId;
+    console.log(bicycleId);
+
+    const bicycleData = req.body;
+    const result = await BicycleServices.updateBicycleByIdFromDB(
+        bicycleId,
+        req.file,
+        bicycleData
+    );
+
+    sendResponse(res, {
+        statusCode: StatusCodes.OK,
+        success: true,
+        message: 'Bicycle updated successfully!',
+        data: result
+    });
+});
 // Call the service function to fetch all bicycles, with optional search filter
 const getAllBicycles = catchAsync(async (req, res) => {
     const result = await BicycleServices.getAllBicyclesFromDB(req.query);
@@ -70,38 +99,6 @@ const getSingleBicycle = async (
             res.status(404).json({
                 success: false,
                 message: 'Product not found'
-            });
-            return;
-        }
-        next(err);
-    }
-};
-
-// Update a Bicycle's details by ID
-const updateBicycleDetailsById = async (
-    req: Request,
-    res: Response,
-    next: NextFunction
-) => {
-    try {
-        const { productId } = req.params;
-        const bicycle = req.body;
-        const result = await BicycleServices.updateBicycleByIdFromDB(
-            productId,
-            bicycle
-        );
-
-        res.status(200).json({
-            success: true,
-            message: 'Bicycle updated successfully!',
-            data: result
-        });
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } catch (err: any) {
-        if (err.message) {
-            res.status(500).json({
-                success: false,
-                error: err.message || err
             });
             return;
         }

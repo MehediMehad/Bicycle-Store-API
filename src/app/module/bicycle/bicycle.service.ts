@@ -1,5 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { StatusCodes } from 'http-status-codes';
 import QueryBuilder from '../../builder/QueryBuilder';
+import AppError from '../../errors/AppError';
 import { sendImageToCloudinary } from '../../utils/sendImageToCloudinary';
 import { TBicycle } from './bicycle.interface';
 import Bicycle from './bicycle.model';
@@ -48,11 +50,31 @@ const getSingleBicycleFromDB = async (productId: string) => {
 };
 
 // Updates a bicycle record in the database using its ID and the provided data.
-const updateBicycleByIdFromDB = async (id: string, data: TBicycle) => {
-    const result = await Bicycle.findByIdAndUpdate(id, data, {
-        new: true
-    });
-    return result;
+const updateBicycleByIdFromDB = async (
+    bicycleId: string,
+    file: any,
+    updatedData: Partial<TBicycle>
+): Promise<TBicycle | null> => {
+    console.log(bicycleId);
+
+    const bicycle = await Bicycle.findById(bicycleId);
+    if (!bicycle) {
+        throw new AppError(StatusCodes.NOT_FOUND, 'Bicycle not found');
+    }
+
+    if (file) {
+        const imageName = `${updatedData?.brand || bicycle.brand}`;
+        const { secure_url } = (await sendImageToCloudinary(
+            imageName,
+            file?.path
+        )) as { secure_url: string };
+        updatedData.image = secure_url;
+    }
+
+    Object.assign(bicycle, updatedData);
+    await bicycle.save();
+
+    return bicycle;
 };
 
 const deleteBicycleByIdFromDB = async (id: string) => {

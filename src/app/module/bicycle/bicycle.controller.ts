@@ -48,7 +48,6 @@ const createBicycle = catchAsync(async (req, res) => {
 });
 const updateBicycleDetailsById = catchAsync(async (req, res) => {
     const bicycleId = req.params.productId;
-    console.log(bicycleId);
 
     const bicycleData = req.body;
     const result = await BicycleServices.updateBicycleByIdFromDB(

@@ -55,8 +55,6 @@ const updateBicycleByIdFromDB = async (
     file: any,
     updatedData: Partial<TBicycle>
 ): Promise<TBicycle | null> => {
-    console.log(bicycleId);
-
     const bicycle = await Bicycle.findById(bicycleId);
     if (!bicycle) {
         throw new AppError(StatusCodes.NOT_FOUND, 'Bicycle not found');

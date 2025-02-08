@@ -22,8 +22,33 @@ const getOrders = catchAsync(async (req, res) => {
     sendResponse(res, {
         statusCode: StatusCodes.CREATED,
         success: true,
-        message: 'Order retrieved successfully',
+        message: 'Order retrieved successfully!',
         data: order
+    });
+});
+
+const getSingleOrder = catchAsync(async (req, res) => {
+    const bicycleId = req.params.productId;
+    const result = await OrderServices.getSingleOrder(bicycleId);
+
+    sendResponse(res, {
+        statusCode: StatusCodes.OK,
+        success: true,
+        message: 'Order retrieved successfully!',
+        data: result
+    });
+});
+
+const getMyOrders = catchAsync(async (req, res) => {
+    const email = req.body;
+
+    const result = await OrderServices.getMyOrderFromDB(email);
+
+    sendResponse(res, {
+        statusCode: StatusCodes.OK,
+        success: true,
+        message: 'My Order are retrieved successfully!',
+        data: result
     });
 });
 
@@ -71,6 +96,8 @@ const getAndCalculateRevenue = async (
 export const orderController = {
     createOrder,
     getAndCalculateRevenue,
+    getSingleOrder,
     getOrders,
-    verifyPayment
+    verifyPayment,
+    getMyOrders
 };

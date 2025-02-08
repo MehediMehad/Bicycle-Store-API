@@ -96,9 +96,22 @@ const getOrders = async () => {
     const data = await Order.find();
     return data;
 };
+// Get Single Order
+const getSingleOrder = async (productId: string) => {
+    const result = await Bicycle.findById({ _id: productId });
+    if (!result) {
+        throw new Error('Product not found');
+    }
+    return result;
+};
+const getMyOrderFromDB = async (email: Record<string, unknown>) => {
+    const result = await Order.find(email);
 
+    return result;
+};
 const verifyPayment = async (order_id: string) => {
     const verifiedPayment = await orderUtils.verifyPaymentAsync(order_id);
+    console.log(verifiedPayment);
 
     if (verifiedPayment.length) {
         await Order.findOneAndUpdate(
@@ -148,6 +161,8 @@ const calculateRevenueDB = async () => {
 export const OrderServices = {
     createOrderDB,
     calculateRevenueDB,
+    getSingleOrder,
     getOrders,
-    verifyPayment
+    verifyPayment,
+    getMyOrderFromDB
 };

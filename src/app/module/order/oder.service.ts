@@ -74,6 +74,7 @@ const createOrderDB = async (
         await Order.updateOne(
             { _id: order[0]._id },
             {
+                status: 'Paid',
                 transaction: {
                     id: payment.sp_order_id,
                     transactionStatus: payment.transactionStatus

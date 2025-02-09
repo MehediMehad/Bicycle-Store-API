@@ -106,7 +106,7 @@ const getSingleOrder = async (productId: string) => {
     return result;
 };
 const getMyOrderFromDB = async (email: Record<string, unknown>) => {
-    const result = await Order.find(email);
+    const result = await Order.find({ email });
 
     return result;
 };

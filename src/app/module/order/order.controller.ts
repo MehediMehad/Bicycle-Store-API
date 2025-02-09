@@ -40,9 +40,9 @@ const getSingleOrder = catchAsync(async (req, res) => {
 });
 
 const getMyOrders = catchAsync(async (req, res) => {
-    const email = req.body;
+    const { userEmail } = req.user;
 
-    const result = await OrderServices.getMyOrderFromDB(email);
+    const result = await OrderServices.getMyOrderFromDB(userEmail);
 
     sendResponse(res, {
         statusCode: StatusCodes.OK,

@@ -10,13 +10,13 @@ const app: Application = express();
 // Parsers: Middleware to parse incoming request bodies
 app.use(express.json());
 app.use(cookieParser());
-// app.use(cors({ origin: 'http://localhost:5173', credentials: true }));
-app.use(
-    cors({
-        origin: 'https://bicycle-store-delta.vercel.app',
-        credentials: true
-    })
-);
+app.use(cors({ origin: 'http://localhost:5173', credentials: true }));
+// app.use(
+//     cors({
+//         origin: 'https://bicycle-store-delta.vercel.app',
+//         credentials: true
+//     })
+// );
 
 // Mount the router at /api so all its routes start with /api
 app.use('/api', router);

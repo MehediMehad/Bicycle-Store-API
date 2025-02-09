@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { FilterQuery, Query } from 'mongoose';
 
 class QueryBuilder<T> {
@@ -30,17 +31,22 @@ class QueryBuilder<T> {
         excludeFields.forEach(el => delete queryObj[el]);
 
         // Price range filter (minPrice & maxPrice)
-        // if (queryObj.minPrice || queryObj.maxPrice) {
-        //     queryObj.price = {}; // নতুন price অবজেক্ট তৈরি করলাম
-        //     if (queryObj.minPrice) {
-        //         queryObj.price.$gte = Number(queryObj.minPrice); // minPrice সেট করলাম
-        //     }
-        //     if (queryObj.maxPrice) {
-        //         queryObj.price.$lte = Number(queryObj.maxPrice); // maxPrice সেট করলাম
-        //     }
-        //     delete queryObj.minPrice;
-        //     delete queryObj.maxPrice;
-        // }
+        if (queryObj.minPrice || queryObj.maxPrice) {
+            if (
+                typeof queryObj.minPrice === 'string' ||
+                typeof queryObj.maxPrice === 'string'
+            ) {
+                queryObj.price = {};
+                if (queryObj.minPrice) {
+                    (queryObj.price as any).$gte = Number(queryObj.minPrice);
+                }
+                if (queryObj.maxPrice) {
+                    (queryObj.price as any).$lte = Number(queryObj.maxPrice);
+                }
+                delete queryObj.minPrice;
+                delete queryObj.maxPrice;
+            }
+        }
 
         this.modelQuery = this.modelQuery.find(queryObj as FilterQuery<T>);
         return this;
